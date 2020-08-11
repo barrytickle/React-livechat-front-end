@@ -1,0 +1,81 @@
+.Tabs {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.TabList {
+    width: 70px;
+    background: #1182ea;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    border-radius: 15px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+.Tab {
+    width: 100%;
+}
+
+.userIcon {
+    border-radius: 50%;
+    border: 5px solid white;
+    margin-bottom: 20px;
+}
+
+.userIcon + .Tab {
+    margin-bottom: 20px;
+}
+
+.userIcon + .Tab svg {
+    height: 80%;
+    width: 80%;
+}
+.userIcon + .Tab button {
+    padding: 10px 20px;
+}
+
+.TabPanel {
+    flex: 1;
+    display: none;
+    padding: 0 1rem;
+}
+.TabPanel.is-active {
+    display: block;
+}
+
+
+
+.Button {
+    display: inline-block;
+    width: 100%;
+    padding: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    box-sizing: border-box;
+}
+.Button:focus,
+.Button:hover {
+    outline: 0;
+    background: #0091ea;
+}
+.Tab.is-active .Button {
+    background: #0091ea;
+    border-left: 2px solid white;
+}
+
+.userSearch > div:first-child {
+    height: 8%;
+    margin-bottom: 2%;
+}
+.userSearch > div:last-child {
+    height: calc(88% - 30px);
+}
