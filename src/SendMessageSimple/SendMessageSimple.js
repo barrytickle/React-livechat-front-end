@@ -150,7 +150,7 @@ export default class SendMessageSimple extends React.Component {
         return(
             <div className="PaperHeader" style={Object.assign(styles.container.default.paperHeader, bg, styles.default.flex, styles.default.flexAlign.center)}>
                 {media.icon}
-                <span style={{color:"white"}}>Send Message</span>
+                <span style={{color:"white", fontSize:"24px"}}>Send Message</span>
             </div>
         );
     }
@@ -158,7 +158,6 @@ export default class SendMessageSimple extends React.Component {
     render(){
 
         const media = this.state();
-        // const icon = this.components[media.icon];
         return (
 
             <Paper style={Object.assign(styles.container.default)}>
