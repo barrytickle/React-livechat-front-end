@@ -12,46 +12,67 @@ import AttachFileIcon from '@material-ui/icons/AttachFile';
 const styles = {
     default:{
       flex:{
-          display:"flex",
-          justify:{
-              end:{
-                  justifyContent:"flex-end"
-              },
-              start:{
+          display:"flex"
+      },
+      flexJustify:{
+              flexStart:{
                   justifyContent:"flex-start"
+              },
+              flexEnd:{
+                  // justifyContent:"flex-end"
+                  justifyContent:"flex-end"
+                  // color:"blue"
               }
-          },
-          align:{
+      },
+      flexAlign:{
               center:{
                   alignItems:"center"
               }
-          }
       }
     },
     icons:{
         default:{
             marginRight:"30px",
             height:"50px",
-            width:"50px"
+            width:"50px",
+            color:"white",
         },
         whatsapp:{
-            color:"#00e676"
+            background:"#00e676"
         },
         email:{
-            color:"#0099FF"
+            background:"#0099FF"
         },
         sms:{
-            color:"#F56A6A"
+            background:"#F56A6A"
         }
     },
     container:{
         default:{
             boxShadow:"0px 30px 60px rgba(0,0,0,0.16)",
             padding:"20px 50px",
+            borderRadius: "10px",
+            position:"absolute",
+            top:"50%",
+            left:"50%",
+            transform:"translate(-50%, -50%)",
+            paddingTop:"0",
             maxWidth:"50%",
+            width:"100%",
             margin:"0 auto",
-            boxSizing:"border-box"
+            boxSizing:"border-box",
+            paperHeader:{
+              marginBottom:"20px",
+              padding:"20px 50px",
+              margin:"0 -50px 20px -50px",
+              borderTopLeftRadius: "10px",
+              borderTopRightRadius:"10px"
+            },
+            marginBot:{
+                marginBottom:"20px"
+            }
         },
+
         reply:{
             padding:"10px",
             background:"rgba(0,0,0,0.05)",
@@ -100,9 +121,10 @@ export default class SendMessageSimple extends React.Component {
     }
 
     showSubject(media){
+
         if(media.subject){
             return (
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12}>
                     <TextField id="outlined-basic" label="Subject" variant="outlined" style={{width:"100%"}}/>
                 </Grid>
             );
@@ -119,19 +141,36 @@ export default class SendMessageSimple extends React.Component {
         }
     }
 
+    showHeader(media){
+        let type= this.props.type;
+        let col = styles.icons[type].background;
+        let bg = {
+            backgroundColor: col
+        }
+        return(
+            <div className="PaperHeader" style={Object.assign(styles.container.default.paperHeader, bg, styles.default.flex, styles.default.flexAlign.center)}>
+                {media.icon}
+                <span style={{color:"white"}}>Send Message</span>
+            </div>
+        );
+    }
+
     render(){
 
         const media = this.state();
         // const icon = this.components[media.icon];
         return (
+
             <Paper style={Object.assign(styles.container.default)}>
+                {this.showHeader(media)}
                 <Grid container justify="space-between">
-                    <Grid item xs={12} md={4} style={Object.assign(styles.default.flex, styles.default.flex.align.center, styles.default.flex.justify.start)}>
-                        {media.icon}
+                    <Grid item xs={12} style={Object.assign(styles.default.flex, styles.container.default.marginBot, styles.default.flexAlign.center, styles.default.flexJustify.start)}>
                         <div style={styles.container.reply}>
                             <span style={styles.container.reply.text}>Reply to: Barry Tickle</span>
                         </div>
                     </Grid>
+                </Grid>
+                <Grid container style={{width:"100%"}}>
                     {this.showSubject(media)}
                 </Grid>
                     <Grid container>
@@ -152,12 +191,12 @@ export default class SendMessageSimple extends React.Component {
                         <Grid item sm={12} md={5}>
                             {this.showAttachment(media)}
                         </Grid>
-                        <Grid item sm={12} md={5} style={Object.assign(styles.default.flex, styles.default.flex.justify.end)}>
+                        <Grid item justify="flex-end" sm={12} md={5} style={Object.assign(styles.default.flex)}>
                             <Button
                                 variant="contained"
                                 color="primary"
                             >
-                                Send <SendIcon style={{color:"white", marginLeft:"10px"}}/>
+                                Send <SendIcon style={{color:"white", marginLeft:"10px",}}/>
                             </Button>
                         </Grid>
 
