@@ -1,149 +1,36 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
 import Grid from "@material-ui/core/Grid";
-import WhatsAppIcon from '@material-ui/icons/WhatsApp';
-import {WhatsApp, Sms, Email} from "@material-ui/icons";
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-
-import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-import Modal, {closestyle} from 'simple-react-modal';
-
-const styles = {
-    modal:{
-      position:"fixed",
-      top:"0",
-      left:"0",
-      background:"rgba(0,0,0,0.5)",
-      height:"100vh",
-      width:"100%"
-    },
-    default:{
-      flex:{
-          display:"flex"
-      },
-      flexJustify:{
-              flexStart:{
-                  justifyContent:"flex-start"
-              },
-              flexEnd:{
-                  justifyContent:"flex-end"
-              }
-      },
-      flexAlign:{
-              center:{
-                  alignItems:"center"
-              }
-      }
-    },
-    icons:{
-        default:{
-            marginRight:"30px",
-            height:"50px",
-            width:"50px",
-            color:"white",
-        },
-        whatsapp:{
-            background:"#00e676"
-        },
-        email:{
-            background:"#0099FF"
-        },
-        sms:{
-            background:"#F56A6A"
-        }
-    },
-    container:{
-        default:{
-            boxShadow:"0px 30px 60px rgba(0,0,0,0.16)",
-            padding:"20px 50px",
-            borderRadius: "10px",
-            position:"absolute",
-            top:"50%",
-            left:"50%",
-            transform:"translate(-50%, -50%)",
-            paddingTop:"0",
-            maxWidth:"50%",
-            width:"100%",
-            margin:"0 auto",
-            boxSizing:"border-box",
-            paperHeader:{
-              marginBottom:"20px",
-              padding:"20px 50px",
-              margin:"0 -50px 20px -50px",
-              borderTopLeftRadius: "10px",
-              borderTopRightRadius:"10px"
-            },
-            marginBot:{
-                marginBottom:"20px"
-            }
-        },
-
-        reply:{
-            padding:"10px",
-            background:"rgba(0,0,0,0.05)",
-            borderRadius:"5px",
-            text:{
-                color:"#1C3F7B",
-                opacity: "0.7"
-            }
-        },
-        textarea:{
-          width:"100%",
-          margin:"20px auto"
-        }
-    }
-}
+import {styles} from './styles';
+import Button from '@material-ui/core/Button';
+import {Email, Sms, WhatsApp} from "@material-ui/icons";
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import SendIcon from "@material-ui/icons/Send";
+import './style.css';
+import Modal from 'react-modal';
 
 export default class SendMessageSimple extends React.Component {
-    constructor(){
-        super()
+    constructor () {
+        super();
         this.state = {
-            type:"sms"
-        }
+            showModal: false,
+            type: 'sms'
+        };
+
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
     }
 
-    show(){
-        this.setState({show: true, type:this.props.type})
+    handleOpenModal () {
+        this.setState({ showModal: true });
     }
 
-    close(){
-        this.setState({show: false})
-    }
-
-    type (){
-        let type = this.props.type;
-        type = type.toLowerCase();
-        let media;
-        switch(type){
-            case 'whatsapp':
-                media = {
-                    icon:<WhatsApp style={Object.assign(styles.icons.whatsapp, styles.icons.default)} />,
-                    subject: false,
-                    attachment: false
-                }
-                break;
-            case 'email':
-                media ={
-                    icon:<Email style={Object.assign(styles.icons.email, styles.icons.default)} />,
-                    subject: true,
-                    attachment:true
-                }
-                break;
-            case 'sms':
-                media ={
-                    icon:<Sms style={Object.assign(styles.icons.sms, styles.icons.default)} />,
-                    subject: true,
-                    attachment:true
-                }
-        }
-
-        return media;
+    handleCloseModal () {
+        this.setState({ showModal: false });
     }
 
     showSubject(media){
-
         if(media.subject){
             return (
                 <Grid item xs={12}>
@@ -165,40 +52,63 @@ export default class SendMessageSimple extends React.Component {
 
 
     showHeader(media){
-        let type= this.state.type;
+        let type= this.props.type;
         let col = styles.icons[type].background;
         let bg = {
             backgroundColor: col
         }
         return(
-            <div className="PaperHeader" style={Object.assign(styles.container.default.paperHeader, bg, styles.default.flex, styles.default.flexAlign.center)}>
+            <div className="paperHeader flex flexAlignCenter" style={bg}>
                 {media.icon}
                 <span style={{color:"white", fontSize:"24px"}}>Send Message</span>
             </div>
         );
     }
 
-    render(){
-        const media = this.type();
+    type (){
+        let type = this.state.type;
+        type = type.toLowerCase();
+        let media;
+        switch(type){
+            case 'whatsapp':
+                media = {
+                    icon:<WhatsApp className="icon" />,
+                    subject: false,
+                    attachment: false
+                }
+                break;
+            case 'email':
+                media ={
+                    icon:<Email className="icon" />,
+                    subject: true,
+                    attachment:true
+                }
+                break;
+            case 'sms':
+                media ={
+                    icon:<Sms className="icon" />,
+                    subject: true,
+                    attachment:true
+                }
+        }
 
+        return media;
+    }
+
+    render () {
+        let media;
+        media = this.type();
+        console.log(media);
         return (
             <div>
-                <Button onClick={this.show.bind(this)} type="whatsapp">
-                    Open
-                </Button>
-                <Modal
-                    id="messageModal"
-                    closeOnOuterClick={true}
-                    show={this.state.show}
-                    onClose={this.close.bind(this)}
-
-                >
-                    <Paper style={Object.assign(styles.container.default)}>
+                <button onClick={this.handleOpenModal}>Trigger Modal</button>
+                <Modal media={media} type={this.state.type} isOpen={this.state.showModal} className="modal">
+                    <Paper className="containerDefault">
                         {this.showHeader(media)}
                         <Grid container justify="space-between">
-                            <Grid item xs={12} style={Object.assign(styles.default.flex, styles.container.default.marginBot, styles.default.flexAlign.center, styles.default.flexJustify.start)}>
-                                <div style={styles.container.reply}>
-                                    <span style={styles.container.reply.text}>Reply to: Barry Tickle</span>
+                            <Grid item xs={12} className="flex marginBot flexAlignCenter flexJustifyStart">
+                                <div className="reply">
+                                    <span>Reply to: Barry Tickle</span>
                                 </div>
                             </Grid>
                         </Grid>
@@ -211,7 +121,7 @@ export default class SendMessageSimple extends React.Component {
                                 id="standard-required"
                                 label="Enter Message"
                                 variant="outlined"
-                                style={styles.container.textarea}
+                                style={styles.textarea}
                                 multiline
                                 rows={10}
                             />
@@ -223,12 +133,21 @@ export default class SendMessageSimple extends React.Component {
                             <Grid item sm={12} md={5}>
                                 {this.showAttachment(media)}
                             </Grid>
-                            <Grid item justify="flex-end" sm={12} md={5} style={Object.assign(styles.default.flex)}>
+                            <Grid item justify="flex-end" sm={12} md={5} className="flex">
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={this.handleCloseModal}
+                                    style={{marginRight: "10px"}}
+                                >
+                                    Cancel
+                                </Button>
+
                                 <Button
                                     variant="contained"
                                     color="primary"
                                 >
-                                    Send <SendIcon style={{color:"white", marginLeft:"10px",}}/>
+                                    Send <SendIcon style={{color:"white", marginLeft:"10px"}}/>
                                 </Button>
                             </Grid>
 
@@ -236,7 +155,7 @@ export default class SendMessageSimple extends React.Component {
                     </Paper>
                 </Modal>
             </div>
-
         );
     }
+
 }

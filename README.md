@@ -4,6 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `Dependencies`
+This project requires the following dependencies:
+ - [React Modal](https://www.npmjs.com/package/simple-react-modal)
+ - [Material UI](https://material-ui.com/)
+
 ### `npm start`
 
 Runs the app in the development mode.<br />
