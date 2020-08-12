@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 
 import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
+import Modal, {closestyle} from 'simple-react-modal';
 
 const styles = {
     modal:{
@@ -96,26 +97,19 @@ const styles = {
 }
 
 export default class SendMessageSimple extends React.Component {
-    constructor(props){
-        super(props);
+    constructor(){
+        super()
         this.state = {
-            open: false
-        };
-        this.openModal = this.openModal.bind(this);
+            type:"sms"
+        }
     }
 
-    checkState(){
-        let show;
-        if(!this.state.open){
-            show = {
-                display: "none"
-            };
-        }else{
-            show = {
-                display:"block"
-            }
-        }
-        return show;
+    show(){
+        this.setState({show: true, type:this.props.type})
+    }
+
+    close(){
+        this.setState({show: false})
     }
 
     type (){
@@ -148,26 +142,6 @@ export default class SendMessageSimple extends React.Component {
         return media;
     }
 
-    closeModal(){
-        this.setState.open = false;
-        this.checkState();
-    }
-
-    openModal = (e) =>{
-        this.setState({
-           open: true,
-           type:this.props.type
-        });
-        return this.checkState();
-    }
-
-    changeState(e){
-        let target = e.target;
-        if(target === 'messageModal'){
-            this.closeModal();
-        }
-    }
-
     showSubject(media){
 
         if(media.subject){
@@ -191,7 +165,7 @@ export default class SendMessageSimple extends React.Component {
 
 
     showHeader(media){
-        let type= this.props.type;
+        let type= this.state.type;
         let col = styles.icons[type].background;
         let bg = {
             backgroundColor: col
@@ -206,14 +180,19 @@ export default class SendMessageSimple extends React.Component {
 
     render(){
         const media = this.type();
-        const show = this.checkState();
 
         return (
             <div>
-                <Button onClick={e => {this.openModal()}} type="sms">
+                <Button onClick={this.show.bind(this)} type="whatsapp">
                     Open
                 </Button>
-                <div id="messageModal" style={Object.assign(styles.modal, show)} onClick={this.changeState}>
+                <Modal
+                    id="messageModal"
+                    closeOnOuterClick={true}
+                    show={this.state.show}
+                    onClose={this.close.bind(this)}
+
+                >
                     <Paper style={Object.assign(styles.container.default)}>
                         {this.showHeader(media)}
                         <Grid container justify="space-between">
@@ -255,7 +234,7 @@ export default class SendMessageSimple extends React.Component {
 
                         </Grid>
                     </Paper>
-                </div>
+                </Modal>
             </div>
 
         );
