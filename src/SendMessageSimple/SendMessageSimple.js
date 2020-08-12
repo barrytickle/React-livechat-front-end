@@ -10,6 +10,14 @@ import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 const styles = {
+    modal:{
+      position:"fixed",
+      top:"0",
+      left:"0",
+      background:"rgba(0,0,0,0.5)",
+      height:"100vh",
+      width:"100%"
+    },
     default:{
       flex:{
           display:"flex"
@@ -19,9 +27,7 @@ const styles = {
                   justifyContent:"flex-start"
               },
               flexEnd:{
-                  // justifyContent:"flex-end"
                   justifyContent:"flex-end"
-                  // color:"blue"
               }
       },
       flexAlign:{
@@ -90,7 +96,29 @@ const styles = {
 }
 
 export default class SendMessageSimple extends React.Component {
-    state (){
+    constructor(props){
+        super(props);
+        this.state = {
+            open: false
+        };
+        this.openModal = this.openModal.bind(this);
+    }
+
+    checkState(){
+        let show;
+        if(!this.state.open){
+            show = {
+                display: "none"
+            };
+        }else{
+            show = {
+                display:"block"
+            }
+        }
+        return show;
+    }
+
+    type (){
         let type = this.props.type;
         type = type.toLowerCase();
         let media;
@@ -120,6 +148,26 @@ export default class SendMessageSimple extends React.Component {
         return media;
     }
 
+    closeModal(){
+        this.setState.open = false;
+        this.checkState();
+    }
+
+    openModal = (e) =>{
+        this.setState({
+           open: true,
+           type:this.props.type
+        });
+        return this.checkState();
+    }
+
+    changeState(e){
+        let target = e.target;
+        if(target === 'messageModal'){
+            this.closeModal();
+        }
+    }
+
     showSubject(media){
 
         if(media.subject){
@@ -141,6 +189,7 @@ export default class SendMessageSimple extends React.Component {
         }
     }
 
+
     showHeader(media){
         let type= this.props.type;
         let col = styles.icons[type].background;
@@ -156,51 +205,59 @@ export default class SendMessageSimple extends React.Component {
     }
 
     render(){
+        const media = this.type();
+        const show = this.checkState();
 
-        const media = this.state();
         return (
-
-            <Paper style={Object.assign(styles.container.default)}>
-                {this.showHeader(media)}
-                <Grid container justify="space-between">
-                    <Grid item xs={12} style={Object.assign(styles.default.flex, styles.container.default.marginBot, styles.default.flexAlign.center, styles.default.flexJustify.start)}>
-                        <div style={styles.container.reply}>
-                            <span style={styles.container.reply.text}>Reply to: Barry Tickle</span>
-                        </div>
-                    </Grid>
-                </Grid>
-                <Grid container style={{width:"100%"}}>
-                    {this.showSubject(media)}
-                </Grid>
-                    <Grid container>
-                        <TextField
-                            required
-                            id="standard-required"
-                            label="Enter Message"
-                            variant="outlined"
-                            style={styles.container.textarea}
-                            multiline
-                            rows={10}
-                        />
-                    </Grid>
-                    <Grid
-                        container
-                        justify="space-between"
-                    >
-                        <Grid item sm={12} md={5}>
-                            {this.showAttachment(media)}
+            <div>
+                <Button onClick={e => {this.openModal()}} type="sms">
+                    Open
+                </Button>
+                <div id="messageModal" style={Object.assign(styles.modal, show)} onClick={this.changeState}>
+                    <Paper style={Object.assign(styles.container.default)}>
+                        {this.showHeader(media)}
+                        <Grid container justify="space-between">
+                            <Grid item xs={12} style={Object.assign(styles.default.flex, styles.container.default.marginBot, styles.default.flexAlign.center, styles.default.flexJustify.start)}>
+                                <div style={styles.container.reply}>
+                                    <span style={styles.container.reply.text}>Reply to: Barry Tickle</span>
+                                </div>
+                            </Grid>
                         </Grid>
-                        <Grid item justify="flex-end" sm={12} md={5} style={Object.assign(styles.default.flex)}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                            >
-                                Send <SendIcon style={{color:"white", marginLeft:"10px",}}/>
-                            </Button>
+                        <Grid container style={{width:"100%"}}>
+                            {this.showSubject(media)}
                         </Grid>
+                        <Grid container>
+                            <TextField
+                                required
+                                id="standard-required"
+                                label="Enter Message"
+                                variant="outlined"
+                                style={styles.container.textarea}
+                                multiline
+                                rows={10}
+                            />
+                        </Grid>
+                        <Grid
+                            container
+                            justify="space-between"
+                        >
+                            <Grid item sm={12} md={5}>
+                                {this.showAttachment(media)}
+                            </Grid>
+                            <Grid item justify="flex-end" sm={12} md={5} style={Object.assign(styles.default.flex)}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    Send <SendIcon style={{color:"white", marginLeft:"10px",}}/>
+                                </Button>
+                            </Grid>
 
-                    </Grid>
-            </Paper>
+                        </Grid>
+                    </Paper>
+                </div>
+            </div>
+
         );
     }
 }
