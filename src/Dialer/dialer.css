@@ -8,7 +8,7 @@
     cursor: pointer;
 }
 
-.dialerModal{
+.dialerModal:not(.dialerModalDrawer){
     position: fixed;
     top:0;
     left:0;
@@ -17,9 +17,17 @@
     background:rgba(0,0,0,0.5);
 }
 
-.dialerBox{
-    height:600px;
-    width:400px;
+/*.dialerModal .dialerModalDrawer{*/
+
+/*}*/
+
+
+
+
+
+.dialModal:not(.dialerModalDrawer) .dialerBox{
+    /*height:600px;*/
+    max-width:400px;
     position: absolute;
     top:50%;
     left:50%;
@@ -59,6 +67,11 @@
     margin-bottom:20px;
     background-color: rgba(0, 0, 0, 0.04);
     font-weight:600;
+    padding:0 !important;
+}
+
+.dialerBox .dialerButtons button span{
+    padding:10px 20px;
 }
 
 .dialerBox .dialerButtons button:hover{

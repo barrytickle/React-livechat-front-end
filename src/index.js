@@ -39,7 +39,7 @@ import * as serviceWorker from './serviceWorker';
 
 
 ReactDOM.render(
-  <Dialer/>,
+  <Dialer position="drawer"/>,
   document.getElementById('root')
 );
 
