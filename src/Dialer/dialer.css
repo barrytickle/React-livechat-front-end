@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+
+.dialerBox *{
+    font-family:'Open Sans', sans-serif;
+}
+
+.dialerBox .MuiSvgIcon-root{
+    cursor: pointer;
+}
+
+.dialerModal{
+    position: fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    width:100%;
+    background:rgba(0,0,0,0.5);
+}
+
+.dialerBox{
+    height:600px;
+    width:400px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    background:white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.dialerBox header{
+    background:#344A5E;
+    padding:30px 60px;
+    color:white;
+}
+.dialerBox .MuiInput-underline:before{
+    border-bottom:1px solid white !important;
+}
+.dialerBox .MuiInput-underline:after{
+    border-bottom:3px solid #23384a !important;
+}
+
+.dialerBox .MuiInputBase-input{
+    font-weight:600;
+    font-size:20px;
+    padding:20px;
+    color:white;
+    text-align:center;
+}
+
+.dialerBox main{
+    padding:30px 60px;
+}
+
+.dialerBox .dialerButtons button{
+    width:30%;
+    font-size:20px;
+    margin-bottom:20px;
+    background-color: rgba(0, 0, 0, 0.04);
+    font-weight:600;
+}
+
+.dialerBox .dialerButtons button:hover{
+    background-color:rgba(0, 0, 0, 0.1)
+}

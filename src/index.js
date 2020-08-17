@@ -3,14 +3,43 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import SendMessageAlt from './SendMessage/SendMessageAlt';
-import SendMessageSimple from './SendMessageSimple/SendMessageSimple';
+import Button from '@material-ui/core/Button';
+// import SendMessageSimple from './SendMessageSimple/SendMessageSimple';
+import Dialer from './Dialer/Dialer';
 import * as serviceWorker from './serviceWorker';
 
+// export default class Test extends React.Component{
+//     constructor() {
+//         super();
+//         this.toggleModal = this.toggleModal.bind(this);
+//
+//         this.state={
+//             show: false
+//         }
+//
+//     };
+//     toggleModal(){
+//       return this.setState({show: true});
+//
+//     };
+//     render(){
+//
+//         // return <h1>Hello World</h1>;
+//
+//
+//
+//
+//         if(this.state.show){
+//             return <SendMessageSimple type="sms"/>;
+//         }else{
+//             return <Button onClick={this.toggleModal}>Open Modal</Button>;
+//         }
+//     }
+// }
+
+
 ReactDOM.render(
-  <React.StrictMode>
-    {/*<SendMessageAlt />*/}
-    <SendMessageSimple type="sms"/>
-  </React.StrictMode>,
+  <Dialer/>,
   document.getElementById('root')
 );
 

@@ -101,8 +101,7 @@ export default class SendMessageSimple extends React.Component {
         console.log(media);
         return (
             <div>
-                <button onClick={this.handleOpenModal}>Trigger Modal</button>
-                <Modal media={media} type={this.state.type} isOpen={this.state.showModal} className="modal">
+x                <Modal media={media} type={this.state.type} isOpen={true} className="modal">
                     <Paper className="containerDefault">
                         {this.showHeader(media)}
                         <Grid container justify="space-between">
