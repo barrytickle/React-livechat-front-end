@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import SendMessageAlt from './SendMessage/SendMessageAlt';
 import Button from '@material-ui/core/Button';
-// import SendMessageSimple from './SendMessageSimple/SendMessageSimple';
+import SendMessageSimple from './SendMessageSimple/SendMessageSimple';
 import Dialer from './Dialer/Dialer';
 import * as serviceWorker from './serviceWorker';
 
@@ -39,7 +39,7 @@ import * as serviceWorker from './serviceWorker';
 
 
 ReactDOM.render(
-  <Dialer/>,
+  <SendMessageSimple type="note"/>,
   document.getElementById('root')
 );
 

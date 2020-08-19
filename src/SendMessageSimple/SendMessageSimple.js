@@ -3,19 +3,23 @@ import Grid from "@material-ui/core/Grid";
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import {styles} from './styles';
 import Button from '@material-ui/core/Button';
-import {Email, Sms, WhatsApp} from "@material-ui/icons";
+import WhatsApp from '@material-ui/icons/WhatsApp';
+import NoteIcon from '@material-ui/icons/Note';
+import {Email, Sms} from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import SendIcon from "@material-ui/icons/Send";
 import './style.css';
 import Modal from 'react-modal';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
 
 export default class SendMessageSimple extends React.Component {
-    constructor () {
-        super();
+    constructor (props) {
+        super(props);
         this.state = {
-            showModal: false,
-            type: 'sms'
+            showModal: true,
+            type: this.props.type
         };
 
         this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -50,17 +54,41 @@ export default class SendMessageSimple extends React.Component {
         }
     }
 
+    showStatus(media){
+        if(media.status){
+            return(
+                <Grid item xs={12}>
+                    <Select
+                        native
+                        value={''}
+                        inputProps={{
+                            name: 'age',
+                            id: 'note-status',
+                        }}
+                    >
+                        <option aria-label="None" value="" />
+                        <option value={10}>Ten</option>
+                        <option value={20}>Twenty</option>
+                        <option value={30}>Thirty</option>
+                    </Select>
+                </Grid>
+            )
+        }
+    }
+
 
     showHeader(media){
-        let type= this.props.type;
-        let col = styles.icons[type].background;
-        let bg = {
+        const type= this.props.type;
+        const col = styles.icons[type].background;
+        const bg = {
             backgroundColor: col
         }
+        let icon = media.icon;
+        icon = <icon />;
         return(
             <div className="paperHeader flex flexAlignCenter" style={bg}>
-                {media.icon}
-                <span style={{color:"white", fontSize:"24px"}}>Send Message</span>
+                <icon className="icon"/>
+                <span style={{color:"white", fontSize:"24px"}}>{media.status? 'Make note' : 'Send Message'}</span>
             </div>
         );
     }
@@ -72,24 +100,33 @@ export default class SendMessageSimple extends React.Component {
         switch(type){
             case 'whatsapp':
                 media = {
-                    icon:<WhatsApp className="icon" />,
+                    icon:'WhatsApp',
                     subject: false,
                     attachment: false
                 }
                 break;
             case 'email':
                 media ={
-                    icon:<Email className="icon" />,
+                    icon:'Email',
                     subject: true,
                     attachment:true
                 }
                 break;
             case 'sms':
                 media ={
-                    icon:<Sms className="icon" />,
+                    icon:'Sms',
                     subject: true,
                     attachment:true
                 }
+                break;
+            case 'note':
+                media = {
+                    icon:'NoteIcon',
+                    subject:false,
+                    status:true,
+                    attachment:false
+                }
+                break;
         }
 
         return media;
@@ -98,10 +135,11 @@ export default class SendMessageSimple extends React.Component {
     render () {
         let media;
         media = this.type();
+        console.log('current media');
         console.log(media);
         return (
             <div>
-x                <Modal media={media} type={this.state.type} isOpen={true} className="modal">
+                <Modal media={media} type={this.state.type} isOpen={this.state.showModal} className="modal">
                     <Paper className="containerDefault">
                         {this.showHeader(media)}
                         <Grid container justify="space-between">
@@ -110,6 +148,7 @@ x                <Modal media={media} type={this.state.type} isOpen={true} class
                                     <span>Reply to: Barry Tickle</span>
                                 </div>
                             </Grid>
+                            {this.showStatus(media)}
                         </Grid>
                         <Grid container style={{width:"100%"}}>
                             {this.showSubject(media)}
